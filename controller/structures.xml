@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
+<structures>
+	<structure id="NBCOT_main" name="NBCOT" level="15" group="main">
+		<description />
+		<sections>
+			<section id="NBCOT_main" name="NBCOT" url="/NBCOT/NBCOT/index" />
+			<section id="NBCOT_other" name="Template" url="/NBCOT/NBCOT/templateExample" />
+		</sections>
+	</structure>
+</structures>
