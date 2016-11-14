@@ -19,6 +19,7 @@
  */
 namespace oat\nbcot\scripts\install;
 
+use core_kernel_classes_Class;
 use oat\generis\model\OntologyAwareTrait;
 use oat\tao\scripts\install\RegisterValidationRules;
 
@@ -31,8 +32,12 @@ class RegisterRequiredProperties extends RegisterValidationRules
 
     public function __invoke($params)
     {
-		$this->addValidator('http://localhost/tao_production.rdf#i147879752199353', 'notEmpty');
-		
+        $class = new core_kernel_classes_Class(TAO_ITEM_CLASS);
+        $prop = $class->createProperty('Test', 'A test property');
+        $prop->setRange(new core_kernel_classes_Class(RDFS_LITERAL));
+
+
+        $this->addValidator($prop->getUri(), 'notEmpty');
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'validator registered');
     }
