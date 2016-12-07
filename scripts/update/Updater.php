@@ -22,17 +22,69 @@
 namespace oat\nbcot\scripts\update;
 
 use \common_ext_ExtensionUpdater;
-use oat\nbcot\scripts\install\RegisterRequiredProperties;
+use oat\tao\model\ThemeNotFoundException;
+use oat\tao\model\ThemeRegistry;
+
 
 class Updater extends common_ext_ExtensionUpdater
 {
+
+    /**
+     * @param string $initialVersion
+     *
+     * @return string $versionUpdatedTo
+     */
     public function update($initialVersion)
     {
-        if($this->isVersion('0.1.0')){
+        if ($this->isVersion('0.1.0')) {
             $registerRequiredProperties = new RegisterRequiredProperties();
             $registerRequiredProperties([]);
 
             $this->setVersion('0.2.0');
         }
+
+        if ($this->isVersion('0.2.0')) {
+
+            // unregister old themes
+            $themesToUnregister = [
+                'tao'           // tao default theme
+            ];
+            foreach ($themesToUnregister as $theme) {
+                try{
+                    ThemeRegistry::getRegistry()->unregisterTheme($theme);
+                } catch (ThemeNotFoundException $e){
+                    \common_Logger::d('theme ' . $theme . ' is not registered, cannot unregister');
+                }
+            }
+
+            // register new themes
+            $itemsThemes = [
+                'NbcotItemTheme' => 'NBCOT Item Theme'
+            ];
+            foreach ($itemsThemes as $themeId => $themeName) {
+                // this is useful when running this scripts multiple times
+                try{
+                    ThemeRegistry::getRegistry()->unregisterTheme($themeId);
+                } catch (ThemeNotFoundException $e){
+                    \common_Logger::d('theme ' . $themeId . ' is not registered, cannot unregister');
+                }
+
+                ThemeRegistry::getRegistry()->registerTheme(
+                    $themeId,
+                    $themeName,
+                    implode(DIRECTORY_SEPARATOR,
+                        array('NBCOT', 'views', 'css', 'themes', 'items', $themeId, 'theme.css')),
+                    array('items')
+                );
+            }
+
+            $defaultTheme = current(array_keys($itemsThemes));
+            ThemeRegistry::getRegistry()->setDefaultTheme('items', $defaultTheme);
+
+
+
+            $this->setVersion('0.3.0');
+        }
+
     }
 }

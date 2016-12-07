@@ -30,7 +30,7 @@ return array(
     'label' => 'NBCOT',
     'description' => '',
     'license' => 'GPL-2.0',
-    'version' => '0.2.0',
+    'version' => '0.3.0',
     'author' => 'NBCOT',
     'requires' => array(
         'tao' => '>=7.18.4'
@@ -41,6 +41,7 @@ return array(
     ),
     'install' => array(
         'php' => array(
+            __DIR__ . '/scripts/install/setThemeConfig.php',
             SetNewTestRunner::class,
             SetNewTestRunnerConfig::class,
             EnableInlineFeedback::class,
