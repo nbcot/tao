@@ -26,6 +26,11 @@ use oat\tao\model\ThemeNotFoundException;
 use oat\tao\model\ThemeRegistry;
 
 
+use oat\nbcot\model\theme\NbcotDefaultTheme;
+use oat\oatbox\service\ServiceManager;
+use oat\tao\model\theme\ThemeService;
+
+
 class Updater extends common_ext_ExtensionUpdater
 {
 
@@ -86,6 +91,17 @@ class Updater extends common_ext_ExtensionUpdater
 
 
             $this->setVersion('0.3.1');
+        }
+
+        if($this->isVersion('0.3.1')) {
+            // Platform themes
+            $serviceManager = ServiceManager::getServiceManager();
+            $themeService = $serviceManager->get(ThemeService::SERVICE_ID);
+
+            $themeService->setTheme(new NbcotDefaultTheme());
+            $serviceManager->register(ThemeService::SERVICE_ID, $themeService);
+
+            $this->setVersion('0.4.0');
         }
 
     }
