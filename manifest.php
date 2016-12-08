@@ -30,7 +30,7 @@ return array(
     'label' => 'NBCOT',
     'description' => '',
     'license' => 'GPL-2.0',
-    'version' => '0.3.0',
+    'version' => '0.3.1',
     'author' => 'NBCOT',
     'requires' => array(
         'tao' => '>=7.18.4'

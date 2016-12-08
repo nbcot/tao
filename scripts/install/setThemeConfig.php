@@ -24,8 +24,47 @@
 use oat\nbcot\model\theme\NbcotDefaultTheme;
 use oat\oatbox\service\ServiceManager;
 use oat\tao\model\theme\ThemeService;
+use oat\tao\model\ThemeNotFoundException;
+use oat\tao\model\ThemeRegistry;
 
 
+
+// Item themes
+// unregister old themes
+$themesToUnregister = [
+    'tao'           // tao default theme
+];
+foreach ($themesToUnregister as $theme) {
+    try{
+        ThemeRegistry::getRegistry()->unregisterTheme($theme);
+    } catch (ThemeNotFoundException $e){
+        \common_Logger::d('theme ' . $theme . ' is not registered, cannot unregister');
+    }
+}
+
+// register new themes
+$itemsThemes = [
+    'NbcotItemTheme' => 'NBCOT Item Theme'
+];
+foreach ($itemsThemes as $themeId => $themeName) {
+    // this is useful when running this scripts multiple times
+    try{
+        ThemeRegistry::getRegistry()->unregisterTheme($themeId);
+    } catch (ThemeNotFoundException $e){
+        \common_Logger::d('theme ' . $themeId . ' is not registered, cannot unregister');
+    }
+
+    ThemeRegistry::getRegistry()->registerTheme(
+        $themeId,
+        $themeName,
+        implode(DIRECTORY_SEPARATOR,
+            array('NBCOT', 'views', 'css', 'themes', 'items', $themeId, 'theme.css')),
+        array('items')
+    );
+}
+
+$defaultTheme = current(array_keys($itemsThemes));
+ThemeRegistry::getRegistry()->setDefaultTheme('items', $defaultTheme);
 
 // Platform themes
 $serviceManager = ServiceManager::getServiceManager();

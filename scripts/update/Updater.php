@@ -43,7 +43,9 @@ class Updater extends common_ext_ExtensionUpdater
             $this->setVersion('0.2.0');
         }
 
-        if ($this->isVersion('0.2.0')) {
+        $this->skip('0.2.0', '0.3.0');
+
+        if ($this->isVersion('0.3.0')) {
 
             // unregister old themes
             $themesToUnregister = [
@@ -83,7 +85,7 @@ class Updater extends common_ext_ExtensionUpdater
 
 
 
-            $this->setVersion('0.3.0');
+            $this->setVersion('0.3.1');
         }
 
     }
