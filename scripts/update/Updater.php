@@ -22,6 +22,8 @@
 namespace oat\nbcot\scripts\update;
 
 use \common_ext_ExtensionUpdater;
+use oat\nbcot\scripts\install\RegisterCustomQtiResultService;
+use oat\nbcot\scripts\install\RegisterRequiredProperties;
 use oat\tao\model\ThemeNotFoundException;
 use oat\tao\model\ThemeRegistry;
 
@@ -102,6 +104,12 @@ class Updater extends common_ext_ExtensionUpdater
             $serviceManager->register(ThemeService::SERVICE_ID, $themeService);
 
             $this->setVersion('0.4.0');
+        }
+
+        if ($this->isVersion('0.4.0')) {
+            $updater = new RegisterCustomQtiResultService();
+            $updater([]);
+            $this->setVersion('0.5.0');
         }
 
     }
