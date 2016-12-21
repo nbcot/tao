@@ -23,6 +23,7 @@ use oat\nbcot\scripts\install\EnableInlineFeedback;
 use oat\nbcot\scripts\install\SetNewTestRunner;
 use oat\nbcot\scripts\install\SetNewTestRunnerConfig;
 use oat\nbcot\scripts\install\RegisterRequiredProperties;
+use oat\nbcot\scripts\install\RegisterCustomQtiResultService;
 use oat\nbcot\scripts\update\Updater;
 
 return array(
@@ -30,10 +31,11 @@ return array(
     'label' => 'NBCOT',
     'description' => '',
     'license' => 'GPL-2.0',
-    'version' => '0.4.0',
+    'version' => '0.5.0',
     'author' => 'NBCOT',
     'requires' => array(
-        'tao' => '>=7.18.4'
+        'tao' => '>=7.18.4',
+        'taoResultServer' => '>=2.12.0'
     ),
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#NBCOTManager',
     'acl' => array(
@@ -45,7 +47,8 @@ return array(
             SetNewTestRunner::class,
             SetNewTestRunnerConfig::class,
             EnableInlineFeedback::class,
-            RegisterRequiredProperties::class
+            RegisterRequiredProperties::class,
+            RegisterCustomQtiResultService::class
         )
     ),
     'uninstall' => array(
