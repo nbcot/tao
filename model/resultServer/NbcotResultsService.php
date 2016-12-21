@@ -103,8 +103,8 @@ class NbcotResultsService extends QtiResultsService
 
             /** @var AssessmentItemRef $item */
             $item = $xml->getDocumentComponent()->getComponentByIdentifier($refIdentifier);
-            $hrefIdentifierParts = explode('.', $item->getHref());
-            $nbcotIdentifier = end($hrefIdentifierParts) . '_' . $refIdentifier;
+            $rdfItem = new \core_kernel_classes_Resource($item->getHref());
+            $nbcotIdentifier = $rdfItem->getLabel() . '_' . $refIdentifier;
 
             $itemElement = $dom->createElementNS(self::QTI_NS, 'itemResult');
             $itemElement->setAttribute('identifier', $nbcotIdentifier);
